@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounting Quiz Master</title>
+    <!-- Modern Typography from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-primary: #0b0f19;
+            --bg-secondary: #131b2e;
+            --bg-card: rgba(30, 41, 59, 0.4);
+            --bg-card-hover: rgba(30, 41, 59, 0.6);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(99, 102, 241, 0.4);
+            
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --accent: #6366f1; /* Indigo */
+            --accent-glow: rgba(99, 102, 241, 0.15);
+            --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            
+            --success: #10b981; /* Emerald */
+            --success-glow: rgba(16, 185, 129, 0.15);
+            --error: #ef4444; /* Rose */
+            --error-glow: rgba(239, 68, 68, 0.15);
+            --warning: #f59e0b; /* Amber */
+            
+            --font-display: 'Outfit', sans-serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 24px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .logo::before {
+            content: "✦";
+            font-size: 28px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border-radius: var(--radius-md);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            border: none;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5);
+            filter: brightness(1.1);
+        }
+
+        .main-container {
+            flex: 1;
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Screen state active styling */
+        .screen {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Dashboard Screen */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .welcome-card {
+            grid-column: 1 / -1;
+            background: rgba(30, 41, 59, 0.25);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .welcome-card h1 {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .welcome-card p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            max-width: 700px;
+            margin: 0 auto 25px;
+            line-height: 1.6;
+        }
+
+        .mode-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mode-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--accent-gradient);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .mode-card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.1);
+        }
+
+        .mode-card:hover::before {
+            opacity: 1;
+        }
+
+        .mode-badge {
+            background: var(--accent-glow);
+            color: #a5b4fc;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+        }
+
+        .mode-card h2 {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .mode-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            font-size: 15px;
+        }
+
+        .mode-card .btn {
+            margin-top: auto;
+        }
+
+        /* Study Mode and Test Mode UI */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1.3fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+
+        @media (max-width: 1024px) {
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .viewer-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .slide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slide-number {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .image-container {
+            width: 100%;
+            background: #000;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            aspect-ratio: 16/9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: zoom-in;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .image-zoom-overlay {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .image-container:hover .image-zoom-overlay {
+            opacity: 1;
+        }
+
+        /* Full Screen Overlay */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(11, 15, 25, 0.95);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .fullscreen-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .fullscreen-overlay img {
+            max-width: 95vw;
+            max-height: 95vh;
+            object-fit: contain;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            border-radius: var(--radius-md);
+        }
+
+        /* Controls Panel */
+        .controls-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 18px;
+            letter-spacing: -0.2px;
+            margin-bottom: 5px;
+        }
+
+        /* Option Grid styling */
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            color: var(--text-primary);
+            text-align: left;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            position: relative;
+        }
+
+        .option-letter {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+        }
+
+        .option-btn:hover {
+            background: rgba(99, 102, 241, 0.05);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .option-btn:hover .option-letter {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Active option states */
+        .option-btn.correct {
+            background: var(--success-glow) !important;
+            border-color: var(--success) !important;
+        }
+
+        .option-btn.correct .option-letter {
+            background: var(--success) !important;
+            border-color: var(--success) !important;
+            color: white !important;
+        }
+
+        .option-btn.incorrect {
+            background: var(--error-glow) !important;
+            border-color: var(--error) !important;
+        }
+
+        .option-btn.incorrect .option-letter {
+            background: var(--error) !important;
+            border-color: var(--error) !important;
+            color: white !important;
+        }
+
+        /* Explanation and Answer Reveal block */
+        .reveal-box {
+            background: rgba(30, 41, 59, 0.2);
+            border: 1px dashed var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            margin-top: 10px;
+            display: none;
+            animation: slideDown 0.3s ease-out forwards;
+        }
+
+        .reveal-box.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal-status {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .reveal-status.success { color: var(--success); }
+        .reveal-status.error { color: var(--error); }
+
+        .reveal-text {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Navigation block for Study Mode */
+        .navigator-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px 25px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-num {
+            width: 70px;
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 8px 12px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            font-family: var(--font-display);
+            font-weight: 600;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+
+        .input-num:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Test Mode Setup and Controls */
+        .setup-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .setup-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .form-select, .form-input {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            outline: none;
+            font-family: var(--font-sans);
+            font-size: 15px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .form-select:focus, .form-input:focus {
+            border-color: var(--accent);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .checkbox-group input {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--accent);
+        }
+
+        /* Progress Bar for Test Mode */
+        .progress-container {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .progress-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-gradient);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .timer-badge {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #fcd34d;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Results / Score screen */
+        .results-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .results-title {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-weight: 800;
+        }
+
+        /* Radial Progress SVG */
+        .score-circle {
+            position: relative;
+            width: 180px;
+            height: 180px;
+        }
+
+        .score-circle svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .score-circle circle {
+            fill: none;
+            stroke-width: 12;
+        }
+
+        .score-circle .circle-bg {
+            stroke: rgba(255,255,255,0.05);
+        }
+
+        .score-circle .circle-progress {
+            stroke: var(--accent);
+            stroke-dasharray: 502;
+            stroke-dashoffset: 502;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1s ease-out;
+        }
+
+        .score-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .score-num {
+            font-family: var(--font-display);
+            font-size: 44px;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+        }
+
+        .score-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stat-item {
+            background: rgba(15, 23, 42, 0.4);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .stat-val {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* Review Section */
+        .review-section {
+            width: 100%;
+            max-width: 700px;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .review-title {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .review-item {
+            background: rgba(15, 23, 42, 0.3);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .review-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .review-item-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+        }
+
+        .review-item-status.correct {
+            background: var(--success-glow);
+            color: var(--success);
+        }
+
+        .review-item-status.incorrect {
+            background: var(--error-glow);
+            color: var(--error);
+        }
+
+        .review-item-details {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .review-toggle-img {
+            color: var(--accent);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 5px;
+        }
+
+        .review-img-box {
+            display: none;
+            width: 100%;
+            background: #000;
+            border-radius: var(--radius-md);
+            margin-top: 10px;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .review-img-box.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .review-img-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Scrollbar customizing */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" id="btnLogo">QuizMaster</div>
+        <div class="nav-buttons">
+            <button class="btn" id="btnGoHome">Dashboard</button>
+            <button class="btn" id="btnGoStudy">Chế độ Học</button>
+            <button class="btn" id="btnGoTest">Chế độ Kiểm tra</button>
+        </div>
+    </header>
+
+    <div class="main-container">
+        
+        <!-- DASHBOARD SCREEN -->
+        <div id="screenDashboard" class="screen active">
+            <div class="welcome-card">
+                <h1>Accounting Quiz Practice</h1>
+                <p>Học tập và kiểm tra toàn bộ 399 câu hỏi trắc nghiệm nguyên lý kế toán thông qua hình ảnh slide gốc trực quan, chính xác.</p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button class="btn btn-primary" id="btnDashStudy">Bắt đầu Học</button>
+                    <button class="btn" id="btnDashTest">Làm Bài Kiểm Tra</button>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="mode-card" id="cardStudy">
+                    <span class="mode-badge">Self-paced</span>
+                    <h2>Chế độ Học tập</h2>
+                    <p>Học từng slide câu hỏi một cách chậm rãi, xem lời giải lập tức sau khi nhấn chọn. Bạn có thể tra cứu nhanh slide cụ thể, chuyển tiếp hoặc quay lui tùy ý.</p>
+                    <button class="btn">Vào học ngay</button>
+                </div>
+                
+                <div class="mode-card" id="cardTest">
+                    <span class="mode-badge">Evaluation</span>
+                    <h2>Chế độ Kiểm tra</h2>
+                    <p>Thi thử dưới dạng trắc nghiệm ngẫu nhiên với số lượng câu hỏi tự chọn (10, 25, 50, hoặc cả 399 câu). Có tính giờ, bảng điểm tổng kết và phần xem lại các câu trả lời sai.</p>
+                    <button class="btn btn-primary">Thi thử ngay</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- STUDY MODE SCREEN -->
+        <div id="screenStudy" class="screen">
+            <div class="workspace">
+                <div class="viewer-card">
+                    <div class="slide-header">
+                        <span class="slide-number" id="studySlideTitle">Slide #1</span>
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn" id="btnZoomImage">🔎 Phóng to</button>
+                        </div>
+                    </div>
+                    <div class="image-container" id="studyImgContainer">
+                        <img src="" id="studySlideImg" alt="Accounting slide question">
+                        <div class="image-zoom-overlay">Click to expand</div>
+                    </div>
+                </div>
+
+                <div class="controls-card">
+                    <div>
+                        <h3 class="section-title">Chọn Đáp Án</h3>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 15px;">Dựa vào hình ảnh slide câu hỏi để chọn đáp án đúng:</p>
+                    </div>
+
+                    <div class="options-grid">
+                        <button class="option-btn" data-letter="A">
+                            <span class="option-letter">A</span> Option A
+                        </button>
+                        <button class="option-btn" data-letter="B">
+                            <span class="option-letter">B</span> Option B
+                        </button>
+                        <button class="option-btn" data-letter="C">
+                            <span class="option-letter">C</span> Option C
+                        </button>
+                        <button class="option-btn" data-letter="D">
+                            <span class="option-letter">D</span> Option D
+                        </button>
+                        <button class="option-btn" data-letter="E">
+                            <span class="option-letter">E</span> Option E
+                        </button>
+                    </div>
+
+                    <div class="reveal-box" id="studyRevealBox">
+                        <div class="reveal-status" id="studyRevealStatus"></div>
+                        <div class="reveal-text" id="studyRevealText"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigator-box">
+                <div class="search-box">
+                    <span style="font-weight: 600; font-size: 14px;">Đến slide:</span>
+                    <input type="number" class="input-num" id="inputSlideGo" min="1" max="399" value="1">
+                    <button class="btn" id="btnSlideGo" style="padding: 8px 15px;">Đi</button>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" id="btnStudyPrev">Trước</button>
+                    <button class="btn" id="btnStudyRandom">Ngẫu nhiên</button>
+                    <button class="btn btn-primary" id="btnStudyNext">Sau</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEST SETUP SCREEN -->
+        <div id="screenTestSetup" class="screen">
+            <div class="setup-container">
+                <h2 class="setup-title">Cấu hình bài kiểm tra</h2>
+                
+                <div class="form-group">
+                    <label for="selectQuestionCount">Số lượng câu hỏi</label>
+                    <select id="selectQuestionCount" class="form-select">
+                        <option value="10">10 câu hỏi</option>
+                        <option value="25">25 câu hỏi</option>
+                        <option value="50">50 câu hỏi</option>
+                        <option value="100">100 câu hỏi</option>
+                        <option value="399">Toàn bộ 399 câu</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="checkRandomize" checked>
+                        Trộn ngẫu nhiên thứ tự câu hỏi
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-group">
+                        <input type="checkbox" id="checkTimer" checked>
+                        Bật thời gian làm bài
+                    </label>
+                </div>
+
+                <button class="btn btn-primary" id="btnStartTest" style="padding: 15px; justify-content: center; font-size: 16px;">Bắt đầu thi thử</button>
+            </div>
+        </div>
+
+        <!-- TEST RUNNING SCREEN -->
+        <div id="screenTestRunning" class="screen">
+            <div class="progress-container">
+                <div class="progress-meta">
+                    <span id="testProgressText">Câu hỏi 1 / 10</span>
+                    <span class="timer-badge" id="testTimerBadge">⏱️ 00:00</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="testProgressFill"></div>
+                </div>
+            </div>
+
+            <div class="workspace">
+                <div class="viewer-card">
+                    <div class="slide-header">
+                        <span class="slide-number" id="testSlideTitle">Câu hỏi số #1</span>
+                    </div>
+                    <div class="image-container" id="testImgContainer">
+                        <img src="" id="testSlideImg" alt="Quiz Slide Question">
+                        <div class="image-zoom-overlay">Click to expand</div>
+                    </div>
+                </div>
+
+                <div class="controls-card">
+                    <div>
+                        <h3 class="section-title">Chọn Đáp Án</h3>
+                        <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 15px;">Lựa chọn phương án trả lời đúng của bạn:</p>
+                    </div>
+
+                    <div class="options-grid" id="testOptionsGrid">
+                        <button class="option-btn" data-letter="A">
+                            <span class="option-letter">A</span> Option A
+                        </button>
+                        <button class="option-btn" data-letter="B">
+                            <span class="option-letter">B</span> Option B
+                        </button>
+                        <button class="option-btn" data-letter="C">
+                            <span class="option-letter">C</span> Option C
+                        </button>
+                        <button class="option-btn" data-letter="D">
+                            <span class="option-letter">D</span> Option D
+                        </button>
+                        <button class="option-btn" data-letter="E">
+                            <span class="option-letter">E</span> Option E
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigator-box">
+                <button class="btn" id="btnTestPrev">Quay lại</button>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" id="btnTestSkip">Bỏ qua</button>
+                    <button class="btn btn-primary" id="btnTestNext">Tiếp theo</button>
+                    <button class="btn btn-primary" id="btnTestFinish" style="background: var(--accent-gradient); display:none;">Nộp bài</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEST RESULTS SCREEN -->
+        <div id="screenTestResults" class="screen">
+            <div class="results-container">
+                <h2 class="results-title">Kết quả làm bài</h2>
+                
+                <div class="score-circle">
+                    <svg>
+                        <circle class="circle-bg" cx="90" cy="90" r="80"></circle>
+                        <circle class="circle-progress" id="resultCircleProgress" cx="90" cy="90" r="80"></circle>
+                    </svg>
+                    <div class="score-text">
+                        <div class="score-num" id="resultPercent">80%</div>
+                        <div class="score-label">Đúng</div>
+                    </div>
+                </div>
+
+                <div class="stats-summary">
+                    <div class="stat-item">
+                        <span class="stat-val" id="resultCorrect">8/10</span>
+                        <span class="stat-label">Số câu đúng</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val" id="resultTime">01:45</span>
+                        <span class="stat-label">Thời gian làm</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-val" id="resultGrade">Khá</span>
+                        <span class="stat-label">Đánh giá</span>
+                    </div>
+                </div>
+
+                <div style="display: flex; gap: 15px; width: 100%; max-width: 600px; justify-content: center;">
+                    <button class="btn btn-primary" id="btnRestartTest">Làm bài mới</button>
+                    <button class="btn" id="btnResultGoHome">Về trang chủ</button>
+                </div>
+
+                <div class="review-section">
+                    <h3 class="review-title">Xem lại các câu hỏi</h3>
+                    <div class="review-list" id="resultReviewList">
+                        <!-- Items dynamically generated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FULL SCREEN IMAGE PREVIEW OVERLAY -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <img src="" id="fullscreenImg" alt="Zoomed Slide View">
+    </div>
+
+    <!-- Script referencing the questions.js which contains `questions` array -->
+    <script src="questions.js"></script>
+    <script>
+        // DOM Elements
+        const screens = {
+            dashboard: document.getElementById('screenDashboard'),
+            study: document.getElementById('screenStudy'),
+            testSetup: document.getElementById('screenTestSetup'),
+            testRunning: document.getElementById('screenTestRunning'),
+            testResults: document.getElementById('screenTestResults')
+        };
+
+        const buttons = {
+            logo: document.getElementById('btnLogo'),
+            goHome: document.getElementById('btnGoHome'),
+            goStudy: document.getElementById('btnGoStudy'),
+            goTest: document.getElementById('btnGoTest'),
+            dashStudy: document.getElementById('btnDashStudy'),
+            dashTest: document.getElementById('btnDashTest'),
+            cardStudy: document.getElementById('cardStudy'),
+            cardTest: document.getElementById('cardTest'),
+            zoomImage: document.getElementById('btnZoomImage'),
+            studyPrev: document.getElementById('btnStudyPrev'),
+            studyNext: document.getElementById('btnStudyNext'),
+            studyRandom: document.getElementById('btnStudyRandom'),
+            slideGo: document.getElementById('btnSlideGo'),
+            startTest: document.getElementById('btnStartTest'),
+            testPrev: document.getElementById('btnTestPrev'),
+            testSkip: document.getElementById('btnTestSkip'),
+            testNext: document.getElementById('btnTestNext'),
+            testFinish: document.getElementById('btnTestFinish'),
+            restartTest: document.getElementById('btnRestartTest'),
+            resultGoHome: document.getElementById('btnResultGoHome')
+        };
+
+        // Screen Switching Logic
+        function showScreen(screenKey) {
+            Object.keys(screens).forEach(key => {
+                if (key === screenKey) {
+                    screens[key].classList.add('active');
+                } else {
+                    screens[key].classList.remove('active');
+                }
+            });
+            
+            // Manage active styles on header buttons
+            buttons.goHome.classList.remove('btn-primary');
+            buttons.goStudy.classList.remove('btn-primary');
+            buttons.goTest.classList.remove('btn-primary');
+            
+            if (screenKey === 'dashboard') buttons.goHome.classList.add('btn-primary');
+            if (screenKey === 'study') buttons.goStudy.classList.add('btn-primary');
+            if (screenKey === 'testSetup' || screenKey === 'testRunning' || screenKey === 'testResults') {
+                buttons.goTest.classList.add('btn-primary');
+            }
+
+            // Stop timer if leaving test running screen
+            if (screenKey !== 'testRunning') {
+                clearInterval(testState.timerInterval);
+            }
+        }
+
+        buttons.logo.addEventListener('click', () => showScreen('dashboard'));
+        buttons.goHome.addEventListener('click', () => showScreen('dashboard'));
+        buttons.goStudy.addEventListener('click', () => {
+            initStudyMode();
+            showScreen('study');
+        });
+        buttons.goTest.addEventListener('click', () => showScreen('testSetup'));
+        buttons.dashStudy.addEventListener('click', () => {
+            initStudyMode();
+            showScreen('study');
+        });
+        buttons.dashTest.addEventListener('click', () => showScreen('testSetup'));
+        buttons.cardStudy.addEventListener('click', () => {
+            initStudyMode();
+            showScreen('study');
+        });
+        buttons.cardTest.addEventListener('click', () => showScreen('testSetup'));
+
+        // Image Zoom Event
+        const fullscreenOverlay = document.getElementById('fullscreenOverlay');
+        const fullscreenImg = document.getElementById('fullscreenImg');
+        const studySlideImg = document.getElementById('studySlideImg');
+        const testSlideImg = document.getElementById('testSlideImg');
+
+        function zoomImage(src) {
+            fullscreenImg.src = src;
+            fullscreenOverlay.classList.add('active');
+        }
+
+        buttons.zoomImage.addEventListener('click', () => {
+            zoomImage(studySlideImg.src);
+        });
+
+        document.getElementById('studyImgContainer').addEventListener('click', () => {
+            zoomImage(studySlideImg.src);
+        });
+
+        document.getElementById('testImgContainer').addEventListener('click', () => {
+            zoomImage(testSlideImg.src);
+        });
+
+        fullscreenOverlay.addEventListener('click', () => {
+            fullscreenOverlay.classList.remove('active');
+        });
+
+
+        /* ==================== STUDY MODE ==================== */
+        let studyIndex = 0; // 0-based index corresponding to questions array
+
+        function initStudyMode() {
+            loadStudyQuestion(studyIndex);
+        }
+
+        function loadStudyQuestion(index) {
+            studyIndex = index;
+            const q = questions[studyIndex];
+            
+            // UI elements updating
+            document.getElementById('studySlideTitle').textContent = `Slide #${q.slide}`;
+            studySlideImg.src = q.image;
+            document.getElementById('inputSlideGo').value = q.slide;
+
+            // Reset options style
+            const optionBtns = document.querySelectorAll('#screenStudy .option-btn');
+            optionBtns.forEach(btn => {
+                btn.className = 'option-btn';
+            });
+
+            // Hide reveal box
+            const revealBox = document.getElementById('studyRevealBox');
+            revealBox.classList.remove('active');
+        }
+
+        // Event listener for Study Mode Option Buttons
+        const studyOptionBtns = document.querySelectorAll('#screenStudy .option-btn');
+        studyOptionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const q = questions[studyIndex];
+                const selectedLetter = btn.getAttribute('data-letter');
+                const correctLetter = q.answer_letter;
+                
+                // Clear previous correctness styles
+                studyOptionBtns.forEach(b => b.className = 'option-btn');
+                
+                const revealBox = document.getElementById('studyRevealBox');
+                const revealStatus = document.getElementById('studyRevealStatus');
+                const revealText = document.getElementById('studyRevealText');
+                
+                if (selectedLetter === correctLetter) {
+                    btn.classList.add('correct');
+                    revealStatus.textContent = "✓ Chính xác!";
+                    revealStatus.className = "reveal-status success";
+                } else {
+                    btn.classList.add('incorrect');
+                    // Find and highlight correct answer
+                    studyOptionBtns.forEach(b => {
+                        if (b.getAttribute('data-letter') === correctLetter) {
+                            b.classList.add('correct');
+                        }
+                    });
+                    revealStatus.textContent = "✗ Chưa chính xác";
+                    revealStatus.className = "reveal-status error";
+                }
+
+                revealText.textContent = `Đáp án đúng là ${correctLetter}. ${q.answer_text}`;
+                revealBox.classList.add('active');
+            });
+        });
+
+        buttons.studyNext.addEventListener('click', () => {
+            if (studyIndex < questions.length - 1) {
+                loadStudyQuestion(studyIndex + 1);
+            }
+        });
+
+        buttons.studyPrev.addEventListener('click', () => {
+            if (studyIndex > 0) {
+                loadStudyQuestion(studyIndex - 1);
+            }
+        });
+
+        buttons.studyRandom.addEventListener('click', () => {
+            const rand = Math.floor(Math.random() * questions.length);
+            loadStudyQuestion(rand);
+        });
+
+        buttons.slideGo.addEventListener('click', () => {
+            const inputVal = parseInt(document.getElementById('inputSlideGo').value);
+            if (inputVal >= 1 && inputVal <= 399) {
+                // Find slide match
+                const idx = questions.findIndex(q => q.slide === inputVal);
+                if (idx !== -1) {
+                    loadStudyQuestion(idx);
+                }
+            }
+        });
+
+
+        /* ==================== TEST MODE ==================== */
+        let testState = {
+            questionsList: [],
+            currentIndex: 0,
+            userAnswers: {}, // index -> chosen letter
+            startTime: null,
+            timerInterval: null,
+            timerEnabled: true
+        };
+
+        buttons.startTest.addEventListener('click', () => {
+            const count = parseInt(document.getElementById('selectQuestionCount').value);
+            const randomize = document.getElementById('checkRandomize').checked;
+            testState.timerEnabled = document.getElementById('checkTimer').checked;
+            
+            // Build the question set
+            let baseList = [...questions];
+            if (randomize) {
+                baseList.sort(() => Math.random() - 0.5);
+            }
+            testState.questionsList = baseList.slice(0, count);
+            testState.currentIndex = 0;
+            testState.userAnswers = {};
+            
+            // Show Running Screen
+            showScreen('testRunning');
+            initTestRun();
+        });
+
+        function initTestRun() {
+            testState.startTime = new Date();
+            
+            // Start Timer
+            if (testState.timerEnabled) {
+                document.getElementById('testTimerBadge').style.display = 'inline-flex';
+                updateTimer();
+                testState.timerInterval = setInterval(updateTimer, 1000);
+            } else {
+                document.getElementById('testTimerBadge').style.display = 'none';
+            }
+
+            loadTestQuestion(0);
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const diff = Math.floor((now - testState.startTime) / 1000);
+            const mins = String(Math.floor(diff / 60)).padStart(2, '0');
+            const secs = String(diff % 60).padStart(2, '0');
+            document.getElementById('testTimerBadge').textContent = `⏱️ ${mins}:${secs}`;
+        }
+
+        function loadTestQuestion(index) {
+            testState.currentIndex = index;
+            const q = testState.questionsList[testState.currentIndex];
+
+            // Progress bar and meta
+            document.getElementById('testProgressText').textContent = `Câu hỏi ${testState.currentIndex + 1} / ${testState.questionsList.length}`;
+            const pct = ((testState.currentIndex) / testState.questionsList.length) * 100;
+            document.getElementById('testProgressFill').style.width = `${pct}%`;
+
+            // Display question slide image
+            document.getElementById('testSlideTitle').textContent = `Câu hỏi ${testState.currentIndex + 1} (Slide #${q.slide})`;
+            testSlideImg.src = q.image;
+
+            // Reset options style & activate selected if already answered
+            const optionBtns = document.querySelectorAll('#testOptionsGrid .option-btn');
+            optionBtns.forEach(btn => {
+                btn.className = 'option-btn';
+                const letter = btn.getAttribute('data-letter');
+                if (testState.userAnswers[testState.currentIndex] === letter) {
+                    btn.classList.add('correct'); // Just visual highlight for selected
+                }
+            });
+
+            // Adjust navigation buttons visibility
+            if (testState.currentIndex === 0) {
+                buttons.testPrev.style.visibility = 'hidden';
+            } else {
+                buttons.testPrev.style.visibility = 'visible';
+            }
+
+            if (testState.currentIndex === testState.questionsList.length - 1) {
+                buttons.testNext.style.display = 'none';
+                buttons.testFinish.style.display = 'inline-flex';
+            } else {
+                buttons.testNext.style.display = 'inline-flex';
+                buttons.testFinish.style.display = 'none';
+            }
+        }
+
+        // Test Options Selection Click
+        const testOptionBtns = document.querySelectorAll('#testOptionsGrid .option-btn');
+        testOptionBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const selectedLetter = btn.getAttribute('data-letter');
+                testState.userAnswers[testState.currentIndex] = selectedLetter;
+                
+                // Highlight option
+                testOptionBtns.forEach(b => b.classList.remove('correct'));
+                btn.classList.add('correct');
+
+                // Auto advance on click after small delay for premium UX
+                setTimeout(() => {
+                    if (testState.currentIndex < testState.questionsList.length - 1) {
+                        loadTestQuestion(testState.currentIndex + 1);
+                    }
+                }, 200);
+            });
+        });
+
+        buttons.testNext.addEventListener('click', () => {
+            if (testState.currentIndex < testState.questionsList.length - 1) {
+                loadTestQuestion(testState.currentIndex + 1);
+            }
+        });
+
+        buttons.testPrev.addEventListener('click', () => {
+            if (testState.currentIndex > 0) {
+                loadTestQuestion(testState.currentIndex - 1);
+            }
+        });
+
+        buttons.testSkip.addEventListener('click', () => {
+            if (testState.currentIndex < testState.questionsList.length - 1) {
+                loadTestQuestion(testState.currentIndex + 1);
+            }
+        });
+
+        buttons.testFinish.addEventListener('click', () => {
+            clearInterval(testState.timerInterval);
+            finishTest();
+        });
+
+        function finishTest() {
+            // Evaluate results
+            let correctCount = 0;
+            const totalCount = testState.questionsList.length;
+            
+            testState.questionsList.forEach((q, idx) => {
+                if (testState.userAnswers[idx] === q.answer_letter) {
+                    correctCount++;
+                }
+            });
+
+            const percent = Math.round((correctCount / totalCount) * 100);
+            
+            // Timer calculation
+            const endTime = new Date();
+            const diff = Math.floor((endTime - testState.startTime) / 1000);
+            const mins = String(Math.floor(diff / 60)).padStart(2, '0');
+            const secs = String(diff % 60).padStart(2, '0');
+            const formattedTime = `${mins}:${secs}`;
+
+            // Grade evaluation
+            let grade = "Cần cố gắng";
+            if (percent >= 85) grade = "Xuất sắc";
+            else if (percent >= 70) grade = "Khá";
+            else if (percent >= 50) grade = "Trung bình";
+
+            // Update DOM Results values
+            document.getElementById('resultPercent').textContent = `${percent}%`;
+            document.getElementById('resultCorrect').textContent = `${correctCount} / ${totalCount}`;
+            document.getElementById('resultTime').textContent = formattedTime;
+            document.getElementById('resultGrade').textContent = grade;
+
+            // Radial progress animation
+            const dashOffset = 502 - (502 * percent / 100);
+            document.getElementById('resultCircleProgress').style.strokeDashoffset = dashOffset;
+
+            // Build Review list
+            const reviewList = document.getElementById('resultReviewList');
+            reviewList.innerHTML = '';
+
+            testState.questionsList.forEach((q, idx) => {
+                const userAns = testState.userAnswers[idx] || "Bỏ qua";
+                const isCorrect = userAns === q.answer_letter;
+                
+                const item = document.createElement('div');
+                item.className = 'review-item';
+                
+                item.innerHTML = `
+                    <div class="review-item-header">
+                        <span>Slide #${q.slide}</span>
+                        <span class="review-item-status ${isCorrect ? 'correct' : 'incorrect'}">
+                            ${isCorrect ? '✓ Đúng' : '✗ Sai'}
+                        </span>
+                    </div>
+                    <div class="review-item-details">
+                        <div><strong>Đáp án của bạn:</strong> ${userAns}</div>
+                        <div><strong>Đáp án đúng:</strong> ${q.answer_letter}. ${q.answer_text}</div>
+                        <div class="review-toggle-img" onclick="toggleReviewImg(${idx}, this)">
+                            👁️ Xem ảnh slide câu hỏi
+                        </div>
+                        <div class="review-img-box" id="review-img-box-${idx}">
+                            <img src="${q.image}" alt="Slide Image">
+                        </div>
+                    </div>
+                `;
+                reviewList.appendChild(item);
+            });
+
+            // Redirect to screen Results
+            showScreen('testResults');
+        }
+
+        // Global function for toggle slide image in Review List
+        window.toggleReviewImg = function(index, toggleBtn) {
+            const imgBox = document.getElementById(`review-img-box-${index}`);
+            if (imgBox.classList.contains('active')) {
+                imgBox.classList.remove('active');
+                toggleBtn.innerHTML = '👁️ Xem ảnh slide câu hỏi';
+            } else {
+                imgBox.classList.add('active');
+                toggleBtn.innerHTML = '👁️ Ẩn ảnh slide câu hỏi';
+            }
+        };
+
+        buttons.restartTest.addEventListener('click', () => {
+            showScreen('testSetup');
+        });
+
+        buttons.resultGoHome.addEventListener('click', () => {
+            showScreen('dashboard');
+        });
+
+    </script>
+</body>
+</html>
