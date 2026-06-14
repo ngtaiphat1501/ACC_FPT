@@ -27,7 +27,7 @@ const questions = [
         "slide": 5,
         "image": "slides_images/slide_5_img_5.png",
         "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_text": "It proves permanent account balances carried forward correctly"
     },
     {
         "slide": 6,
@@ -315,7 +315,7 @@ const questions = [
         "slide": 53,
         "image": "slides_images/slide_53_img_53.png",
         "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_text": "Asset, liability, owner capital"
     },
     {
         "slide": 54,
@@ -327,7 +327,7 @@ const questions = [
         "slide": 55,
         "image": "slides_images/slide_55_img_55.png",
         "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_text": "It proves permanent account balances carried forward correctly"
     },
     {
         "slide": 56,
@@ -638,14 +638,14 @@ const questions = [
     {
         "slide": 107,
         "image": "slides_images/slide_107_img_107.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 108,
         "image": "slides_images/slide_108_img_108.png",
         "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_text": "Revenue and Liabilities"
     },
     {
         "slide": 109,
@@ -806,8 +806,8 @@ const questions = [
     {
         "slide": 135,
         "image": "slides_images/slide_135_img_135.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 136,
@@ -944,8 +944,8 @@ const questions = [
     {
         "slide": 158,
         "image": "slides_images/slide_158_img_158.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 159,
@@ -1250,8 +1250,8 @@ const questions = [
     {
         "slide": 209,
         "image": "slides_images/slide_209_img_209.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "D",
+        "answer_text": "Account payable."
     },
     {
         "slide": 210,
@@ -1664,8 +1664,8 @@ const questions = [
     {
         "slide": 278,
         "image": "slides_images/slide_278_img_278.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "B",
+        "answer_text": "Office supplies"
     },
     {
         "slide": 279,
@@ -1952,8 +1952,8 @@ const questions = [
     {
         "slide": 326,
         "image": "slides_images/slide_326_img_326.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "D",
+        "answer_text": "Account payable."
     },
     {
         "slide": 327,
@@ -2018,8 +2018,8 @@ const questions = [
     {
         "slide": 337,
         "image": "slides_images/slide_337_img_337.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 338,
@@ -2084,8 +2084,8 @@ const questions = [
     {
         "slide": 348,
         "image": "slides_images/slide_348_img_348.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 349,
@@ -2168,8 +2168,8 @@ const questions = [
     {
         "slide": 362,
         "image": "slides_images/slide_362_img_362.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 363,
@@ -2246,8 +2246,8 @@ const questions = [
     {
         "slide": 375,
         "image": "slides_images/slide_375_img_375.png",
-        "answer_letter": "C",
-        "answer_text": "$158.40"
+        "answer_letter": "A",
+        "answer_text": "Option A"
     },
     {
         "slide": 376,
